@@ -9,10 +9,7 @@ function App() {
   return (
     <>
       <Header />
-      <h1>React redux toolkit</h1>
-      <button onClick={() => dispatch(clearAllItem())} className="remove-btn">
-        Clear Cart
-      </button>
+
       <Product />
     </>
   );

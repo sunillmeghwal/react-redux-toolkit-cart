@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addItem, removeItem } from "./redux/slice";
 import { fetchProducts } from "./redux/productSlice";
+import { addItem } from "./redux/slice";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -10,33 +10,37 @@ const Product = () => {
     dispatch(fetchProducts());
   }, []);
 
-  const selector = useSelector((state) => state.products.items);
-  console.log(selector);
+  const productSelector = useSelector((state) => state.products.items);
+  console.log(productSelector);
+
+  const cartSelector = useSelector((state) => state.cart.items);
+  console.log(cartSelector.length);
 
   return (
-    <div>
-      <main className="products-section">
-        <h2>Our Products</h2>
-        <div className="products">
-          <div className="product-card">
-            <img
-              src="https://imagescdn.pantaloons.com/img/app/product/3/307949-1397073.jpg?auto=format&w=450"
-              alt="Product 1"
-            />
-            <h3>Red T-Shirt</h3>
-            <p className="price">$19.99</p>
-            <button onClick={() => dispatch(addItem(1))} className="add-btn">
-              Add to Cart
-            </button>
-            <button
-              onClick={() => dispatch(removeItem(1))}
-              className="remove-btn"
-            >
-              Remove to Cart
-            </button>
+    <div className="grid">
+      {productSelector.length &&
+        productSelector.map((item) => (
+          <div key={item.id} className="product-card">
+            <img src={item.thumbnail} />
+            <div className="content">
+              <div className="title">{item.title}</div>
+              <div className="brand">{item.brand}</div>
+              <div className="price">{item.price}</div>
+              <div className="rating">{item.rating}</div>
+
+              {cartSelector.find((cartItem) => cartItem.id === item.id) ? (
+                <button className="add-btn btn-disable">Added in Cart</button>
+              ) : (
+                <button
+                  onClick={() => dispatch(addItem(item))}
+                  className="add-btn"
+                >
+                  Add To Cart
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      </main>
+        ))}
     </div>
   );
 };

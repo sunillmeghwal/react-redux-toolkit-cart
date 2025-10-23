@@ -161,3 +161,17 @@ body {
 .remove-btn:hover {
   background: darkred;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.btn-disable {
+  background-color: rgb(164, 170, 175);
+}
+
+.btn-disable:hover {
+  background-color: rgb(164, 170, 175);
+}
