@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import "./App.css";
 import Header from "./Header";
 import Product from "./Product";
-import { clearAllItem } from "./redux/slice";
+import Footer from "./Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -11,6 +11,8 @@ function App() {
       <Header />
 
       <Product />
+
+      <Footer />
     </>
   );
 }
