@@ -1,11 +1,19 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAllItem, removeItem } from "./redux/slice";
+import { useNavigate } from "react-router-dom";
 
 function CartList() {
   const cartSelector = useSelector((state) => state.cart.items);
+
   console.log(cartSelector);
 
   const [cartItems, setCartItems] = useState(cartSelector);
+  useEffect(() => {
+    setCartItems(cartSelector);
+  }, [cartSelector]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const manageQuantity = (id, q) => {
     let quantity = parseInt(q) > 1 ? parseInt(q) : 1;
@@ -13,6 +21,13 @@ function CartList() {
       return item.id == id ? { ...item, quantity } : item;
     });
     setCartItems(cartTempItems);
+  };
+
+  const handlePlaceOrder = () => {
+    localStorage.clear();
+    dispatch(clearAllItem());
+    alert("Order placed");
+    navigate("/");
   };
 
   return (
@@ -50,7 +65,12 @@ function CartList() {
                           : item.price
                         ).toFixed(2)}
                       </span>
-                      <button className="remove-btn">Remove</button>
+                      <button
+                        onClick={() => dispatch(removeItem(item))}
+                        className="remove-btn"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -70,6 +90,9 @@ function CartList() {
             )
             .toFixed(2)}
         </div>
+        <button onClick={handlePlaceOrder} className="remove-btn">
+          Place Order
+        </button>
       </div>
     </>
   );
